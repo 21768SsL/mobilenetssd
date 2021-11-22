@@ -159,6 +159,8 @@ def event_handle(event):
           replyObj = TextSendMessage(text="ไปสิ")
           line_bot_api.reply_message(rtoken, relyObj)
         else :
+           replyObj = TextSendMessage(text=msg)
+           line_bot_api.reply_message(rtoken, relyObj)
            headers = request.headers
            json_headers = ({k:v for k, v in headers.items()})
            json_headers.update({'Host':'bots.dialogflow.com'})
