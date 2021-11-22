@@ -149,17 +149,23 @@ def event_handle(event):
 
     if msgType == "text":
         msg = str(event["message"]["text"])
-        if (msg == "สวัสดี") :
-         replyObj = TextSendMessage(text="อือหึ...ดี")
+        if msg == "สวัสดี" :
+          replyObj = TextSendMessage(text="อือหึ...ดี")
+          line_bot_api.reply_message(rtoken, replyObj)
         elif (msg == "กินข้าวหรือยัง") :
           replyObj = TextSendMessage(text="กินแล้วจ้า")
+          line_bot_api.reply_message(rtoken, replyObj)
         elif (msg == "ไปเที่ยวไหม") :
           replyObj = TextSendMessage(text="ไปสิ")
+          line_bot_api.reply_message(rtoken, replyObj)
         else :
-           replyObj = TextSendMessage(text=msg)
-        line_bot_api.reply_message(rtoken, replyObj)
-    elif msgType == "image":
-        try:
+           headers = request.headers
+           json_headers = ({k:v for k, v in headers.items()})
+           json_headers.update({'Host':'bots.dialogflow.com'})
+           url = "https://dialogflow.cloud.google.com/v1/integrations/line/webhook/0d371619-d194-474b-bc12-88e4578dad24"
+           requests.post(url,data=json_line, headers=json_headers)
+      elif msgType == "image":
+         try:
             message_content = line_bot_api.get_message_content(event['message']['id'])
             i = Image.open(BytesIO(message_content.content))
             filename = event['message']['id'] + '.jpg'
